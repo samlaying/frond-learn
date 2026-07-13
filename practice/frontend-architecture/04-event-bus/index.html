@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04 - Event Bus 练习</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg0: #07111f;
+        --bg1: #121a33;
+        --panel: rgba(10, 18, 36, 0.9);
+        --line: rgba(148, 163, 184, 0.18);
+        --text: #e7eefb;
+        --muted: #9aabc8;
+        --accent: #7dd3fc;
+        --good: #55d6a8;
+        --warn: #f6c26b;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(125, 211, 252, 0.18), transparent 32%),
+          radial-gradient(circle at top right, rgba(85, 214, 168, 0.12), transparent 28%),
+          linear-gradient(180deg, var(--bg0), var(--bg1));
+      }
+      .shell { max-width: 1180px; margin: 0 auto; padding: 28px 20px 44px; }
+      .hero, .grid, .card {
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: var(--panel);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+      }
+      .hero { padding: 28px; }
+      .eyebrow { color: var(--accent); letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.78rem; }
+      h1 { margin: 10px 0 12px; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.05; }
+      .lead { max-width: 900px; color: var(--muted); line-height: 1.8; }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 16px;
+        margin-top: 16px;
+        padding: 16px;
+      }
+      .card { padding: 18px; }
+      .card h2 { margin: 0 0 10px; font-size: 1.06rem; }
+      .muted { color: var(--muted); line-height: 1.7; }
+      .note {
+        margin-top: 14px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        border: 1px solid rgba(125, 211, 252, 0.16);
+        background: rgba(125, 211, 252, 0.08);
+        color: #dbf0ff;
+        line-height: 1.7;
+      }
+      .row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+      button {
+        border: 0;
+        border-radius: 999px;
+        padding: 11px 15px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .primary { background: var(--accent); color: #06201a; }
+      .secondary { background: transparent; color: var(--text); border: 1px solid var(--line); }
+      .danger { background: rgba(245, 158, 11, 0.14); color: #ffe4b0; border: 1px solid rgba(245, 158, 11, 0.2); }
+      .input {
+        margin-top: 12px;
+        padding: 14px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: rgba(5, 11, 24, 0.62);
+      }
+      textarea {
+        width: 100%;
+        min-height: 112px;
+        resize: vertical;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--text);
+        font: inherit;
+        line-height: 1.7;
+      }
+      .log {
+        margin-top: 12px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: rgba(5, 11, 24, 0.55);
+        padding: 14px;
+        min-height: 220px;
+      }
+      .log-item { margin-top: 8px; color: var(--muted); line-height: 1.65; }
+      .ok { color: #9ff2d0; }
+      .warn { color: #ffd9a0; }
+      .list { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.8; }
+      .back { display: inline-block; margin-bottom: 14px; color: var(--accent); text-decoration: none; }
+      .flow {
+        margin-top: 12px;
+        padding: 14px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: rgba(5, 11, 24, 0.46);
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 11px;
+        border-radius: 999px;
+        background: rgba(125, 211, 252, 0.08);
+        border: 1px solid rgba(125, 211, 252, 0.12);
+        color: #d7efff;
+        margin: 6px 8px 0 0;
+      }
+      @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <a class="back" href="../">← 返回入口</a>
+
+      <section class="hero">
+        <div class="eyebrow">practice / event bus</div>
+        <h1>用消息把模块连起来</h1>
+        <p class="lead">
+          这章练的是“不是直接调用，而是先发消息、别人自己来接”的思路。
+          你会看到一个最小 Event Bus，支持 `on`、`emit`、`off`，然后让一个模块发消息，另一个模块收消息。
+        </p>
+        <div class="note">
+          你可以把它理解成：A 模块不认识 B 模块，只认识一个名字叫事件类型的“消息频道”。
+          谁订阅了这个频道，谁就会收到通知。
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>业务场景：输入后广播消息</h2>
+          <div class="muted">这里模拟一个常见的前端页面：用户输入内容，点击发送后，多个地方同时响应。</div>
+
+          <div class="flow">
+            <div class="pill">发送模块：发出 `message:sent`</div>
+            <div class="pill">接收模块：显示日志</div>
+            <div class="pill">接收模块：更新未读数</div>
+            <div class="pill">接收模块：插入消息列表</div>
+          </div>
+
+          <div class="input">
+            <label class="muted" for="messageInput">输入消息</label>
+            <textarea id="messageInput">你好，今天的消息总线练习开始了。</textarea>
+          </div>
+
+          <div class="row">
+            <button class="primary" id="sendBtn">发送消息</button>
+            <button class="secondary" id="fillBtn">填充示例</button>
+            <button class="danger" id="toggleBtn">切换第二个监听者</button>
+          </div>
+
+          <div class="flow">
+            <div class="muted">第二个消息类型：`typing:start`</div>
+            <div class="row">
+              <button class="secondary" id="typingBtn">模拟正在输入</button>
+              <button class="secondary" id="clearTypingBtn">清空输入状态</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>运行日志</h2>
+          <div class="muted">看这里，你就能知道哪一个模块收到了哪一个消息。</div>
+          <div class="note">
+            判断标准：
+            <br />
+            `emit` 只是广播消息，不负责处理业务；
+            `on` 是订阅；
+            `off` 是取消订阅。
+          </div>
+          <div class="log" id="log">
+            <div class="log-item">页面初始化完成，等待发送消息。</div>
+          </div>
+          <div class="flow">
+            <div class="muted">你要记住的关键词</div>
+            <ul class="list">
+              <li>一个模块发消息，不需要知道谁会接。</li>
+              <li>多个监听者可以同时响应同一条消息。</li>
+              <li>取消订阅后，这个监听者就不再收到通知。</li>
+              <li>消息类型越明确，代码越好读。</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script type="module" src="./app/main.js"></script>
+  </body>
+</html>

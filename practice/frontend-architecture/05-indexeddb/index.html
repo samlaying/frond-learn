@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>05 - IndexedDB 练习</title>
+  <style>
+    :root { color-scheme: dark; --bg:#08130f; --panel:#10251dcc; --line:#315445; --text:#edf8f1; --muted:#a9c7b8; --accent:#f2c14e; --good:#67d49b; }
+    * { box-sizing:border-box } body { margin:0; min-height:100vh; font-family:"Avenir Next","PingFang SC",sans-serif; color:var(--text); background:radial-gradient(circle at 15% 0,#214b38 0,transparent 36%),linear-gradient(145deg,#07100d,#15261f); }
+    main { max-width:1100px; margin:auto; padding:28px 20px 50px } a { color:var(--accent) } header,.card { border:1px solid var(--line); background:var(--panel); border-radius:22px; padding:22px; box-shadow:0 24px 70px #0005 } h1 { font-size:clamp(2rem,5vw,3.6rem); margin:10px 0 } p { color:var(--muted); line-height:1.75 } .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px } textarea { width:100%; min-height:130px; border:1px solid var(--line); border-radius:14px; padding:14px; color:var(--text); background:#07120e; font:inherit } button { border:0; border-radius:999px; padding:11px 16px; font-weight:700; cursor:pointer; background:var(--accent); color:#241c05 } .secondary { background:transparent; border:1px solid var(--line); color:var(--text) } .row { display:flex; gap:10px; flex-wrap:wrap; margin:12px 0 } .draft { padding:12px; border-bottom:1px solid var(--line) } .draft small,.log { color:var(--muted) } .log { min-height:130px; padding:12px; background:#07120e; border-radius:14px; line-height:1.7 } .rule { color:var(--good); font-weight:700 } @media(max-width:800px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body><main>
+  <a href="../">返回练习入口</a>
+  <header><small>05 / LOCAL DATABASE</small><h1>把消息草稿放进浏览器数据库</h1><p>保存后刷新页面，草稿仍然存在。判断标准：结构化、本地、数量可能增长的数据，优先考虑 IndexedDB。</p></header>
+  <section class="grid">
+    <article class="card"><h2>写一条草稿</h2><textarea id="content">这条消息还没写完，先保存到本地。</textarea><div class="row"><button id="save">保存草稿</button><button class="secondary" id="reload">重新读取</button></div><p class="rule">UI 点击 → main.js → db.js → IndexedDB → UI 更新</p><h3>运行日志</h3><div class="log" id="log">正在打开数据库...</div></article>
+    <article class="card"><h2>对象仓库 drafts</h2><p>每条记录都有自增 id、内容和创建时间。点击删除后，会真正从 IndexedDB 移除。</p><div id="drafts"></div></article>
+  </section>
+  <script type="module" src="./app/main.js"></script>
+</main></body></html>

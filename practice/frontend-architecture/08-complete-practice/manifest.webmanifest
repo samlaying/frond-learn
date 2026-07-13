@@ -1,0 +1,9 @@
+{
+  "name": "离线消息工作台",
+  "short_name": "消息工作台",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080d18",
+  "theme_color": "#17213a",
+  "lang": "zh-CN"
+}

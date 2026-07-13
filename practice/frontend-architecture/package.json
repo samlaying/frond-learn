@@ -1,0 +1,13 @@
+{
+  "name": "frontend-architecture-practice",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive practice playground for frontend architecture lessons.",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve"
+  },
+  "devDependencies": {
+    "serve": "^11.2.0"
+  }
+}

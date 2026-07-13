@@ -1,0 +1,9 @@
+{
+  "name": "PWA 离线消息练习",
+  "short_name": "PWA 练习",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#06191f",
+  "theme_color": "#123a4a",
+  "lang": "zh-CN"
+}

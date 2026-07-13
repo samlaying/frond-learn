@@ -8,6 +8,8 @@
 
 可直接运行的实战入口在 [`practice/frontend-architecture/`](/Users/sam/03-Code/frond-learn/practice/frontend-architecture/)。
 
+如果阅读练习代码时遇到语法看不懂，可以先看 [`syntax/`](/Users/sam/03-Code/frond-learn/syntax/)。这个目录只补当前练习里已经出现过的语法，不扩展成完整语法书。
+
 ## 一、教程内容：五个阶段
 
 ### 阶段 1：网页基础

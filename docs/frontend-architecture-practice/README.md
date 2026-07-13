@@ -2,7 +2,7 @@
 
 这个目录对应 [`frontend-architecture.md`](../frontend-architecture.md) 的教程内容，用来把“看懂”变成“做出来”。
 
-如果你想直接看一个能运行、能预览的实战入口，请先打开 [根目录的练习场](/Users/sam/03-Code/frond-learn/practice/frontend-architecture/)，那里已经拆成 `01-spa-basics/`、`02-layered-architecture/`、`03-single-direction-call/` 三个独立章节。
+如果你想直接看一个能运行、能预览的实战入口，请先打开 [根目录的练习场](/Users/sam/03-Code/frond-learn/practice/frontend-architecture/)，那里已经拆成从 `01-spa-basics/` 到 `08-complete-practice/` 的八个独立章节。
 
 ## 使用方式
 

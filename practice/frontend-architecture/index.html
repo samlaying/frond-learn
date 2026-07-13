@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端架构实战入口</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0b1020;
+        --panel: rgba(15, 23, 42, 0.86);
+        --text: #e5eefc;
+        --muted: #9fb0d0;
+        --accent: #7dd3fc;
+        --border: rgba(148, 163, 184, 0.22);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(125, 211, 252, 0.18), transparent 34%),
+          radial-gradient(circle at top right, rgba(245, 158, 11, 0.14), transparent 28%),
+          linear-gradient(180deg, #07111f 0%, #0b1020 48%, #0f172a 100%);
+        color: var(--text);
+      }
+      .shell { max-width: 1080px; margin: 0 auto; padding: 24px; }
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: var(--panel);
+        padding: 20px;
+        backdrop-filter: blur(14px);
+      }
+      h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.4rem); }
+      p { color: var(--muted); line-height: 1.7; }
+      .grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 18px; }
+      a {
+        display: block;
+        padding: 18px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        background: rgba(7, 13, 26, 0.68);
+        color: var(--text);
+        text-decoration: none;
+      }
+      a:hover { border-color: rgba(125, 211, 252, 0.55); }
+      .tag { color: var(--accent); font-size: 0.85rem; }
+      .title { margin: 8px 0 6px; font-size: 1.08rem; font-weight: 700; }
+      .desc { margin: 0; }
+      @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="card">
+        <h1>前端架构实战入口</h1>
+        <p>这里是总入口。八章共用同一个消息业务，从页面更新一路练到离线综合项目。建议每次只打开一章、只改一个小点，再观察页面日志。</p>
+        <div class="grid">
+          <a href="./01-spa-basics/">
+            <div class="tag">01</div>
+            <div class="title">SPA 基础</div>
+            <p class="desc">点击按钮只更新局部内容，理解单页应用的核心交互方式。</p>
+          </a>
+          <a href="./02-layered-architecture/">
+            <div class="tag">02</div>
+            <div class="title">三层架构</div>
+            <p class="desc">把一个功能拆成 UI、业务实体和数据层，练职责分离。</p>
+          </a>
+          <a href="./03-single-direction-call/">
+            <div class="tag">03</div>
+            <div class="title">单向调用</div>
+            <p class="desc">体会 UI -> 业务层 -> 数据层的单向依赖关系。</p>
+          </a>
+          <a href="./04-event-bus/">
+            <div class="tag">04</div><div class="title">Event Bus</div>
+            <p class="desc">一个模块只广播消息，多个监听者各自响应。</p>
+          </a>
+          <a href="./05-indexeddb/">
+            <div class="tag">05</div><div class="title">IndexedDB</div>
+            <p class="desc">把结构化草稿保存到浏览器数据库，刷新后仍然存在。</p>
+          </a>
+          <a href="./06-web-worker/">
+            <div class="tag">06</div><div class="title">Web Worker</div>
+            <p class="desc">对比主线程卡顿与 Worker 消息通信。</p>
+          </a>
+          <a href="./07-pwa/">
+            <div class="tag">07</div><div class="title">PWA</div>
+            <p class="desc">注册 Service Worker，让页面外壳可离线打开。</p>
+          </a>
+          <a href="./08-complete-practice/">
+            <div class="tag">08</div><div class="title">离线消息工作台</div>
+            <p class="desc">串联分层、数据库、事件、Worker 与离线缓存。</p>
+          </a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
