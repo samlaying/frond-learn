@@ -6,6 +6,8 @@
 2. **学习方式**：用可复习、可输出、可迭代的方法推进学习。
 3. **代码实践**：把现有 demo 当作拓展练习，重点放在拆解、改写和迁移，而不是只看效果。
 
+可直接运行的实战入口在 [`practice/frontend-architecture/`](/Users/sam/03-Code/frond-learn/practice/frontend-architecture/)。
+
 ## 一、教程内容：五个阶段
 
 ### 阶段 1：网页基础

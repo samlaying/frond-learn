@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01 - 前端架构对比入口</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #08101f;
+        --panel: rgba(15, 23, 42, 0.9);
+        --text: #e5eefc;
+        --muted: #9fb0d0;
+        --accent: #7dd3fc;
+        --accent-2: #f59e0b;
+        --border: rgba(148, 163, 184, 0.22);
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(125, 211, 252, 0.18), transparent 34%),
+          radial-gradient(circle at top right, rgba(245, 158, 11, 0.14), transparent 28%),
+          linear-gradient(180deg, #07111f 0%, #0b1020 48%, #0f172a 100%);
+        color: var(--text);
+      }
+      .shell { max-width: 1100px; margin: 0 auto; padding: 28px 20px 40px; }
+      .hero, .card {
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(14px);
+      }
+      .hero { padding: 28px; }
+      .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 18px; }
+      .card { padding: 20px; }
+      h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); }
+      h2 { margin: 0 0 10px; font-size: 1.3rem; }
+      p { color: var(--muted); line-height: 1.7; margin: 10px 0 0; }
+      .tag { display: inline-block; padding: 6px 10px; border-radius: 999px; background: rgba(125, 211, 252, 0.12); color: var(--accent); font-size: 0.85rem; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 16px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        border: 1px solid transparent;
+      }
+      .btn.primary { background: linear-gradient(135deg, var(--accent), #38bdf8); color: #082032; }
+      .btn.secondary { background: rgba(255, 255, 255, 0.04); color: var(--text); border-color: var(--border); }
+      .list { margin: 14px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.8; }
+      .note { margin-top: 18px; font-size: 0.95rem; }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <span class="tag">01 - 传统多页 vs SPA</span>
+        <h1>先看入口，再点进去对比</h1>
+        <p>这个目录现在拆成两个独立示例。一个展示传统多页的“整页跳转”，一个展示 SPA 的“局部更新”。</p>
+        <div class="actions">
+          <a class="btn primary" href="./traditional-home.html">看传统多页</a>
+          <a class="btn secondary" href="./spa.html">看 SPA</a>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>传统多页</h2>
+          <p>点击链接后会跳到另一个 HTML 页面，浏览器重新加载整页内容，地址栏也会跟着变化。</p>
+          <ul class="list">
+            <li>每个页面都是独立文件</li>
+            <li>跳转时页面整体刷新</li>
+            <li>适合演示“请求新页面”的感觉</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h2>SPA</h2>
+          <p>页面只加载一次，后续点击主要是用 JavaScript 改局部内容，不离开当前页面。</p>
+          <ul class="list">
+            <li>通常只有一个主入口</li>
+            <li>交互后不整页刷新</li>
+            <li>适合演示“同一页面内切换视图”</li>
+          </ul>
+        </article>
+      </section>
+
+      <p class="note">你可以先点“传统多页”，再回到这里点“SPA”，差异会很直观。</p>
+    </main>
+  </body>
+</html>

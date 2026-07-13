@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPA - 应用壳示例</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #07111f;
+        --panel: rgba(15, 23, 42, 0.9);
+        --text: #e5eefc;
+        --muted: #9fb0d0;
+        --accent: #7dd3fc;
+        --accent-2: #f59e0b;
+        --border: rgba(148, 163, 184, 0.22);
+        --shadow: 0 24px 80px rgba(0,0,0,.35);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(125, 211, 252, 0.18), transparent 28%),
+          radial-gradient(circle at top right, rgba(245, 158, 11, 0.12), transparent 26%),
+          linear-gradient(180deg, #07111f 0%, #0b1020 48%, #0f172a 100%);
+        color: var(--text);
+      }
+      .shell { max-width: 1180px; margin: 0 auto; padding: 24px; }
+      .app {
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--border);
+      }
+      .brand { display: flex; flex-direction: column; gap: 4px; }
+      .brand strong { font-size: 1.05rem; }
+      .brand span { color: var(--muted); font-size: 0.92rem; }
+      .nav { display: flex; flex-wrap: wrap; gap: 10px; }
+      .nav a {
+        text-decoration: none;
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255,255,255,.03);
+      }
+      .nav a.active { background: linear-gradient(135deg, var(--accent), #38bdf8); color: #082032; border-color: transparent; font-weight: 700; }
+      .content { display: grid; grid-template-columns: 250px 1fr; gap: 18px; padding: 22px; }
+      .sidebar, .view {
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background: rgba(255,255,255,.03);
+        padding: 18px;
+      }
+      .sidebar h2, .view h1 { margin: 0 0 10px; }
+      .sidebar p, .view p { color: var(--muted); line-height: 1.7; }
+      .route-list { display: grid; gap: 10px; margin-top: 14px; }
+      .route-list a {
+        text-decoration: none;
+        color: var(--text);
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba(255,255,255,.04);
+        border: 1px solid var(--border);
+      }
+      .route-list a.active { outline: 1px solid rgba(125,211,252,.35); }
+      .panel { margin-top: 16px; padding: 18px; border: 1px solid var(--border); border-radius: 18px; background: rgba(255,255,255,.03); }
+      .message { padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,.05); margin-bottom: 12px; }
+      .btn, .link-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        background: linear-gradient(135deg, var(--accent), #38bdf8);
+        color: #082032;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .link-btn.alt { background: rgba(255,255,255,.04); color: var(--text); border: 1px solid var(--border); }
+      .meta { font-size: .95rem; color: var(--muted); }
+      .crumb { color: var(--accent-2); font-size: 0.9rem; }
+      @media (max-width: 860px) { .content { grid-template-columns: 1fr; } .topbar { flex-direction: column; align-items: flex-start; } }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="app">
+        <header class="topbar">
+          <div class="brand">
+            <strong>Acme Console</strong>
+            <span>Single Page Application</span>
+          </div>
+          <nav class="nav" aria-label="主导航">
+            <a href="#/dashboard" data-nav="dashboard">仪表盘</a>
+            <a href="#/orders" data-nav="orders">订单</a>
+            <a href="#/users" data-nav="users">用户</a>
+          </nav>
+        </header>
+
+        <section class="content">
+          <aside class="sidebar">
+            <h2>应用壳</h2>
+            <p>顶部导航、侧边信息、主内容区域都固定存在。切换路由时，只更新右侧内容。</p>
+            <div class="route-list">
+              <a href="#/dashboard" data-route-link="dashboard">概览</a>
+              <a href="#/orders" data-route-link="orders">订单列表</a>
+              <a href="#/users" data-route-link="users">用户中心</a>
+            </div>
+          </aside>
+
+          <section class="view" aria-live="polite">
+            <div class="crumb" id="crumb"># /dashboard</div>
+            <h1 id="viewTitle">仪表盘</h1>
+            <p id="viewDesc">这里是首页概览，属于同一个页面壳中的一个视图。</p>
+
+            <div class="panel" id="viewPanel">
+              <div class="message" id="viewBox">今日订单 128，转化率 4.2%，在线用户 16,402。</div>
+              <button class="btn" id="primaryAction">刷新概览数据</button>
+              <a class="link-btn alt" href="./index.html">回入口页</a>
+            </div>
+
+            <p class="meta">注意地址栏里的 `#/...` 会变化，但浏览器不会整页刷新。这就是 hash 路由的典型 SPA 体验。</p>
+          </section>
+        </section>
+      </section>
+    </main>
+    <script>
+      const viewTitle = document.getElementById("viewTitle");
+      const viewDesc = document.getElementById("viewDesc");
+      const viewBox = document.getElementById("viewBox");
+      const crumb = document.getElementById("crumb");
+      const primaryAction = document.getElementById("primaryAction");
+      const navLinks = [...document.querySelectorAll("[data-nav]")];
+      const routeLinks = [...document.querySelectorAll("[data-route-link]")];
+      const routes = {
+        dashboard: {
+          title: "仪表盘",
+          desc: "这里是首页概览，属于同一个页面壳中的一个视图。",
+          crumb: "#/dashboard",
+          box: () => "今日订单 128，转化率 4.2%，在线用户 16,402。",
+          action: "刷新概览数据",
+        },
+        orders: {
+          title: "订单列表",
+          desc: "这里是订单页。页面结构没变，只是中间内容切成了另一个业务视图。",
+          crumb: "#/orders",
+          box: () => "最近 10 笔订单已加载，包含待支付、已发货和已完成状态。",
+          action: "加载更多订单",
+        },
+        users: {
+          title: "用户中心",
+          desc: "这里是用户页。URL 变化了，但并没有发起整页导航。",
+          crumb: "#/users",
+          box: () => "当前活跃用户 8,921，新增注册 214，昨日留存 71%。",
+          action: "查看用户明细",
+        },
+      };
+      const readRoute = () => {
+        const hash = window.location.hash || "#/dashboard";
+        const key = hash.replace("#/", "");
+        return routes[key] ? key : "dashboard";
+      };
+      const setActive = (key) => {
+        document.title = `Acme Console - ${routes[key].title}`;
+        crumb.textContent = routes[key].crumb;
+        viewTitle.textContent = routes[key].title;
+        viewDesc.textContent = routes[key].desc;
+        viewBox.textContent = routes[key].box();
+        primaryAction.textContent = routes[key].action;
+        navLinks.forEach((link) => {
+          link.classList.toggle("active", link.dataset.nav === key);
+        });
+        routeLinks.forEach((link) => {
+          link.classList.toggle("active", link.dataset.routeLink === key);
+        });
+      };
+      const render = () => setActive(readRoute());
+      window.addEventListener("hashchange", render);
+      primaryAction.addEventListener("click", () => {
+        const key = readRoute();
+        viewBox.textContent = `${routes[key].box()}（刚刚手动刷新）`;
+      });
+      render();
+    </script>
+  </body>
+</html>
