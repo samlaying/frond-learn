@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>游戏卡片悬停效果</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .rap {
+      width: 100%;
+      height: 100vh;
+      background: url('./image/游戏背景图.png') no-repeat center / cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      width: 440px;
+      height: 250px;
+      border-radius: 20px;
+      position: relative;
+      box-shadow: 0 0 30px 20px rgba(255, 255, 255, 0.05);
+    }
+
+    .background {
+      width: 440px;
+      height: 250px;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: 2s;
+    }
+
+    .background img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .character {
+      width: 440px;
+      height: 230px;
+      position: absolute;
+      bottom: 0;
+      transition: 2s;
+    }
+
+    .character img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .content {
+      width: 440px;
+      padding: 10px;
+      color: #fff;
+      position: absolute;
+      bottom: -50px;
+      opacity: 0;
+      transition: 2s;
+    }
+
+    .content h1,
+    .content p {
+      font-weight: 200;
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    .card:hover .background {
+      transform: perspective(1000px) rotateX(30deg) skewX(-20deg);
+      transform-origin: bottom;
+    }
+
+    .card:hover .character {
+      transform: scale(1.3);
+      transform-origin: bottom;
+    }
+
+    .card:hover .content {
+      opacity: 1;
+      transform: translateY(120px);
+    }
+  </style>
+</head>
+<body>
+  <div class="rap">
+    <div class="card">
+      <div class="background">
+        <img src="./image/游戏背景图.png" alt="">
+      </div>
+      <div class="character">
+        <img src="./image/游戏角色图.png" alt="">
+      </div>
+      <div class="content">
+        <h1>游戏标题</h1>
+        <p>这是一段游戏描述文本，鼠标悬停在卡片上查看交互动画效果。</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
